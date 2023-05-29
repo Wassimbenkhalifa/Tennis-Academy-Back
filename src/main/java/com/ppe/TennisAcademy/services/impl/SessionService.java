@@ -1,4 +1,4 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import com.ppe.TennisAcademy.entities.Terrain;
 import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
 import com.ppe.TennisAcademy.repositories.SeancePlanifieeRepository;
 import com.ppe.TennisAcademy.repositories.SessionRepository;
-import com.ppe.TennisAcademy.services.ImplServices.ISessionService;
+import com.ppe.TennisAcademy.services.ISessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

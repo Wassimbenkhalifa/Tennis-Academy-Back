@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 import com.ppe.TennisAcademy.entities.Terrain;
 import com.ppe.TennisAcademy.entities.TerrainDTO;
-import com.ppe.TennisAcademy.services.ImplServices.ITerrainService;
-import com.ppe.TennisAcademy.services.MediaService;
+import com.ppe.TennisAcademy.services.ITerrainService;
+import com.ppe.TennisAcademy.services.impl.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

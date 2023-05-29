@@ -1,4 +1,4 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.Set;
 import com.ppe.TennisAcademy.entities.Media;
 import com.ppe.TennisAcademy.entities.MediaDTO;
 import com.ppe.TennisAcademy.repositories.MediaRepository;
-import com.ppe.TennisAcademy.services.ImplServices.IMediaService;
+import com.ppe.TennisAcademy.services.IMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,21 +28,22 @@ public class MediaService implements IMediaService {
 
     @Autowired
     MediaRepository mediaRepository;
-    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    static SecureRandom rnd = new SecureRandom();
+    static final String alphaNumerics = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static SecureRandom secureRandomGenerator = new SecureRandom();
 
-    public String randomString(int len) {
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++)
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+    public String randomString(int stringLength) {
+        StringBuilder sb = new StringBuilder(stringLength);
+        for (int i = 0; i < stringLength; i++) {
+            sb.append(alphaNumerics.charAt(secureRandomGenerator.nextInt(alphaNumerics.length())));
+        }
         return sb.toString();
     }
 
     @Override
     public String setFileName(String name) {
-
-        String extension = name != null || name != "" ? "." + Optional.of(name).filter(f -> f.contains("."))
-                .map(f -> f.substring(name.lastIndexOf(".") + 1)).orElse("") : "";
+        String extension = "." + Optional.of(name)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(name.lastIndexOf(".") + 1)).orElse("");
         return this.randomString(15) + extension;
     }
 
@@ -69,7 +70,7 @@ public class MediaService implements IMediaService {
             return -1;
         try {
             for (MediaDTO media : medias) {
-                if (media.getFileName() != null && media.getFileName() != "" && media.getFile() != null)
+                if (media.getFileName() != null && !media.getFileName().equals("") && media.getFile() != null)
                     upload(media.getFile(), media.getFileName(), path);
             }
             return 0;
@@ -87,9 +88,7 @@ public class MediaService implements IMediaService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (Media != null)
-            return Media;
-        return null;
+        return Media;
     }
 
     @Override
@@ -159,6 +158,5 @@ public class MediaService implements IMediaService {
         }
 
         return res;
-
     }
 }

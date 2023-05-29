@@ -1,10 +1,10 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 import java.util.List;
 
 import com.ppe.TennisAcademy.entities.Publication;
 import com.ppe.TennisAcademy.repositories.PublicationRepository;
-import com.ppe.TennisAcademy.services.ImplServices.IPublicationService;
+import com.ppe.TennisAcademy.services.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

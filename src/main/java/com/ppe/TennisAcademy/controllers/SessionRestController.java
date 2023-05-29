@@ -1,7 +1,5 @@
 package com.ppe.TennisAcademy.controllers;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,8 +9,7 @@ import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
 import com.ppe.TennisAcademy.repositories.SeancePlanifieeRepository;
 import com.ppe.TennisAcademy.repositories.SessionRepository;
 import com.ppe.TennisAcademy.repositories.TerrainRepository;
-import com.ppe.TennisAcademy.services.ImplServices.ISessionService;
-import com.ppe.TennisAcademy.services.SessionService;
+import com.ppe.TennisAcademy.services.impl.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 
 @RestController
 @RequestMapping("/api/session")

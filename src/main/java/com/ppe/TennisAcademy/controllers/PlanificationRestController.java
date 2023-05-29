@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,9 +12,9 @@ import com.ppe.TennisAcademy.entities.PlanificationDTO;
 import com.ppe.TennisAcademy.entities.SeancePlanifiee;
 import com.ppe.TennisAcademy.entities.Terrain;
 import com.ppe.TennisAcademy.repositories.TerrainRepository;
-import com.ppe.TennisAcademy.services.ImplServices.IPlanificationService;
-import com.ppe.TennisAcademy.services.PlanificationService;
-import com.ppe.TennisAcademy.services.SeancePlanifieeService;
+import com.ppe.TennisAcademy.services.IPlanificationService;
+import com.ppe.TennisAcademy.services.impl.PlanificationService;
+import com.ppe.TennisAcademy.services.impl.SeancePlanifieeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

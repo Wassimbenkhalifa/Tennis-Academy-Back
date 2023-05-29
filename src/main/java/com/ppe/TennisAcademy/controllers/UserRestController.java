@@ -2,8 +2,6 @@ package com.ppe.TennisAcademy.controllers;
 
 
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,11 +24,11 @@ import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.RoleRepository;
 import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
 import com.ppe.TennisAcademy.repositories.SessionRepository;
-import com.ppe.TennisAcademy.services.ImplServices.IPlanificationService;
-import com.ppe.TennisAcademy.services.ImplServices.ISessionService;
-import com.ppe.TennisAcademy.services.ImplServices.ITerrainService;
-import com.ppe.TennisAcademy.services.ImplServices.IMediaService;
-import com.ppe.TennisAcademy.services.UserService;
+import com.ppe.TennisAcademy.services.IPlanificationService;
+import com.ppe.TennisAcademy.services.ISessionService;
+import com.ppe.TennisAcademy.services.ITerrainService;
+import com.ppe.TennisAcademy.services.IMediaService;
+import com.ppe.TennisAcademy.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -109,34 +107,28 @@ public class UserRestController <T extends User> {
         List<String> strRoles = user.getRoles().stream().map((r) -> r.getName().toString()).collect(Collectors.toList());
         Set<Role> roles = new HashSet<>();
 
-        if (strRoles == null) {
-            Role adherentRole = roleRepository.findByName(ERole.ROLE_ADHERENT)
-                    .orElseThrow(() -> new RuntimeException("Error: Role adherent is not found."));
-            roles.add(adherentRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "ROLE_ADMIN":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role dmin is not found."));
-                        roles.add(adminRole);
+        strRoles.forEach(role -> {
+            switch (role) {
+                case "ROLE_ADMIN":
+                    Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role dmin is not found."));
+                    roles.add(adminRole);
 
-                        break;
+                    break;
 
-                    case "ROLE_COACH":
-                        Role coachRole = roleRepository.findByName(ERole.ROLE_COACH)
-                                .orElseThrow(() -> new RuntimeException("Error: Role Coach is not found."));
-                        roles.add(coachRole);
+                case "ROLE_COACH":
+                    Role coachRole = roleRepository.findByName(ERole.ROLE_COACH)
+                            .orElseThrow(() -> new RuntimeException("Error: Role Coach is not found."));
+                    roles.add(coachRole);
 
-                        break;
+                    break;
 
-                    default:
-                        Role adherentRoleDefault = roleRepository.findByName(ERole.ROLE_ADHERENT)
-                                .orElseThrow(() -> new RuntimeException("Error: Role Adherent is not found."));
-                        roles.add(adherentRoleDefault);
-                }
-            });
-        }
+                default:
+                    Role adherentRoleDefault = roleRepository.findByName(ERole.ROLE_ADHERENT)
+                            .orElseThrow(() -> new RuntimeException("Error: Role Adherent is not found."));
+                    roles.add(adherentRoleDefault);
+            }
+        });
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRoles(roles);
         userService.save((T) user);

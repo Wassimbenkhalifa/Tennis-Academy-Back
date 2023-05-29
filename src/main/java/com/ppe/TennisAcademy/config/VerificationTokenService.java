@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import com.ppe.TennisAcademy.entities.User;
-import com.ppe.TennisAcademy.services.UserService;
+import com.ppe.TennisAcademy.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.google.common.cache.CacheBuilder;

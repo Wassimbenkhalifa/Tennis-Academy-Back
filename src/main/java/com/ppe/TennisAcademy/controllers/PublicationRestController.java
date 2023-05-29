@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.ppe.TennisAcademy.entities.Publication;
 import com.ppe.TennisAcademy.entities.PublicationDTO;
-import com.ppe.TennisAcademy.services.ImplServices.IPublicationService;
+import com.ppe.TennisAcademy.services.IPublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -58,7 +58,7 @@ public class User {
 
 
     @Size(max = 120)
-    @JsonIgnore
+//    @JsonIgnore
     @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     private String password;

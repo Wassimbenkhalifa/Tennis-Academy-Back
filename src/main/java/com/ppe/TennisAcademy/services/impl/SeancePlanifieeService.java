@@ -1,4 +1,4 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 import com.ppe.TennisAcademy.entities.SeancePlanifiee;
 import com.ppe.TennisAcademy.repositories.SeancePlanifieeRepository;

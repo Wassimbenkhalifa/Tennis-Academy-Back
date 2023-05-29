@@ -1,4 +1,4 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 import com.ppe.TennisAcademy.entities.Planification;
 import com.ppe.TennisAcademy.entities.SeancePlanifiee;
 import com.ppe.TennisAcademy.repositories.PlanificationRepository;
-import com.ppe.TennisAcademy.services.ImplServices.IPlanificationService;
+import com.ppe.TennisAcademy.services.IPlanificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

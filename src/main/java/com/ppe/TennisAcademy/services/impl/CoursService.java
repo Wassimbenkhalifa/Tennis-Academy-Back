@@ -1,17 +1,19 @@
-package com.ppe.TennisAcademy.services;
+package com.ppe.TennisAcademy.services.impl;
 
 import java.util.List;
 import com.ppe.TennisAcademy.entities.Cours;
 import com.ppe.TennisAcademy.repositories.CoursRepository;
-import com.ppe.TennisAcademy.services.ImplServices.ICoursService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ppe.TennisAcademy.services.ICoursService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CoursService implements ICoursService {
 
-    @Autowired
-    private CoursRepository coursRepository;
+    private final CoursRepository coursRepository;
+
+    public CoursService(CoursRepository coursRepository) {
+        this.coursRepository = coursRepository;
+    }
 
     @Override
     public Cours save(Cours cours) {
@@ -33,7 +35,7 @@ public class CoursService implements ICoursService {
 
     @Override
     public Cours getById(Long id) {
-        return this.coursRepository.getById(id);
+        return this.coursRepository.getReferenceById(id);
     }
 
     @Override

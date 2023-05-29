@@ -1,4 +1,4 @@
-package com.ppe.TennisAcademy.services.ImplServices;
+package com.ppe.TennisAcademy.services;
 
 
 import java.util.Set;

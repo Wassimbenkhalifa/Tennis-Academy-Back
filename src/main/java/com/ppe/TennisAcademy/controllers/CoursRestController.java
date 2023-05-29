@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.ppe.TennisAcademy.entities.Cours;
 import com.ppe.TennisAcademy.entities.CoursDTO;
-import com.ppe.TennisAcademy.services.ImplServices.ICoursService;
+import com.ppe.TennisAcademy.services.ICoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
