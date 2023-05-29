@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ppe</groupId>
-	<artifactId>TennisTieBreak</artifactId>
+	<artifactId>TennisAcademy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>TennisTieBreak</name>
-	<description>Demo project for Spring Boot</description>
+	<name>TennisAcademy</name>
+	<description>Demo project for PPE</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
