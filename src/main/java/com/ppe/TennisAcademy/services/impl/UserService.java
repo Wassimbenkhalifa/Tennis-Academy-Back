@@ -78,15 +78,14 @@ import io.jsonwebtoken.lang.Assert;
         List<Coach> listCoach=new ArrayList<>();
 
         for(User u:listUsers) {
-            if(u instanceof Coach) {
-                listCoach.add((Coach) u);
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_COACH") ) {
+                Coach ad = mapUserToCoach(u);
+                listCoach.add(ad);
             }
         }
 
-        if(listCoach!=null) {
-            return listCoach;
-        }
-        else return null;
+        return listCoach;
 
     }
 
@@ -95,16 +94,74 @@ import io.jsonwebtoken.lang.Assert;
         List<Adherent> listAdherent=new ArrayList<>();
 
         for(User u:listUsers) {
-            if(u instanceof Adherent) {
-                listAdherent.add((Adherent) u);
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_ADHERENT") ) {
+                Adherent ad = mapUserToAdherent(u);
+                listAdherent.add(ad);
             }
         }
 
-        if(listAdherent!=null) {
-            return listAdherent;
-        }
-        else return null;
+        return listAdherent;
 
+    }
+
+    public Adherent mapUserToAdherent(User user) {
+        Adherent ad = new Adherent();
+        ad.setIdUser(user.getIdUser());
+        ad.setEmail(user.getEmail());
+        ad.setGender(user.getGender());
+        ad.setAddresse(user.getAddresse());
+        ad.setDateNaissance(user.getDateNaissance());
+        ad.setNom(user.getNom());
+        ad.setPrenom(user.getPrenom());
+        ad.setPassword(user.getPassword());
+        ad.setPhoto(user.getPhoto());
+        ad.setRoles(user.getRoles());
+        ad.setTelephone(user.getTelephone());
+        ad.setNbrMatchJoues(ad.getNbrMatchJoues());
+        ad.setTerrainsReserves(ad.getTerrainsReserves());
+        ad.setUsername(user.getUsername());
+        ad.setResetPasswordToken(user.getResetPasswordToken());
+        ad.setVerified(user.getVerified());
+        return ad;
+    }
+
+    public Admin mapUserToAdmin(User user) {
+        Admin ad = new Admin();
+        ad.setIdUser(user.getIdUser());
+        ad.setEmail(user.getEmail());
+        ad.setGender(user.getGender());
+        ad.setAddresse(user.getAddresse());
+        ad.setDateNaissance(user.getDateNaissance());
+        ad.setNom(user.getNom());
+        ad.setPrenom(user.getPrenom());
+        ad.setPassword(user.getPassword());
+        ad.setPhoto(user.getPhoto());
+        ad.setRoles(user.getRoles());
+        ad.setTelephone(user.getTelephone());
+        ad.setUsername(user.getUsername());
+        ad.setResetPasswordToken(user.getResetPasswordToken());
+        ad.setVerified(user.getVerified());
+        return ad;
+    }
+
+    public Coach mapUserToCoach(User user) {
+        Coach ad = new Coach();
+        ad.setIdUser(user.getIdUser());
+        ad.setEmail(user.getEmail());
+        ad.setGender(user.getGender());
+        ad.setAddresse(user.getAddresse());
+        ad.setDateNaissance(user.getDateNaissance());
+        ad.setNom(user.getNom());
+        ad.setPrenom(user.getPrenom());
+        ad.setPassword(user.getPassword());
+        ad.setPhoto(user.getPhoto());
+        ad.setRoles(user.getRoles());
+        ad.setTelephone(user.getTelephone());
+        ad.setUsername(user.getUsername());
+        ad.setResetPasswordToken(user.getResetPasswordToken());
+        ad.setVerified(user.getVerified());
+        return ad;
     }
 
 
@@ -113,17 +170,15 @@ import io.jsonwebtoken.lang.Assert;
         List<Admin> listAdmin=new ArrayList<>();
 
         for(User u:listUsers) {
-            if(u instanceof Admin) {
-                listAdmin.add((Admin) u);
-                System.out.println(u);
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_ADMIN") ) {
+                Admin admin = mapUserToAdmin(u);
+                listAdmin.add(admin);
                 return listAdmin;
             }
         }
 
-        if(listAdmin!=null) {
-            return listAdmin;
-        }
-        else return null;
+        return listAdmin;
 
     }
 

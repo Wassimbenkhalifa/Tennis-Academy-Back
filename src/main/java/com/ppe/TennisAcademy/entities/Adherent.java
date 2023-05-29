@@ -15,6 +15,9 @@ public class Adherent extends User {
 
     private int nbrMatchJoues;
 
+    public Adherent() {
+        super();
+    }
 
     @ManyToMany
     @JoinTable(name = "Adherent_Terrain",
