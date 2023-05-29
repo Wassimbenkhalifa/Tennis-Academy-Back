@@ -115,6 +115,8 @@ import io.jsonwebtoken.lang.Assert;
         for(User u:listUsers) {
             if(u instanceof Admin) {
                 listAdmin.add((Admin) u);
+                System.out.println(u);
+                return listAdmin;
             }
         }
 

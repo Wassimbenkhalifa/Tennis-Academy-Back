@@ -497,17 +497,17 @@ public class UserRestController <T extends User> {
         Collection<Terrain> terrain = terrainService.getAll();
 
         if (users != null && sessions != null && planification != null && terrain != null) {
-            int nbrUtilisateur = 0;
-            int nbrSessionLibre = 0;
-            int nbrSessionPlanifiee = 0;
+            int nbrUser = 0;
+            int nbrSeanceLibre = 0;
+            int nbrSeancePlanifiee = 0;
             int nbrTerrain = 0;
-            int nbrPlanification = 0;
+            //int nbrPlanification = 0;
 
             if (!users.isEmpty())
-                nbrUtilisateur = users.size();
+                nbrUser = users.size();
 
-            if (!planification.isEmpty())
-                nbrPlanification = planification.size();
+            //if (!planification.isEmpty())
+               // nbrPlanification = planification.size();
 
             if (!terrain.isEmpty())
                 nbrTerrain = terrain.size();
@@ -515,18 +515,18 @@ public class UserRestController <T extends User> {
             if (!sessions.isEmpty()) {
                 for (Session sess : sessions) {
                     if (sess instanceof SeancesLibre)
-                        nbrSessionLibre = nbrSessionLibre + 1;
+                        nbrSeanceLibre = nbrSeanceLibre + 1;
                     if (sess instanceof SeancePlanifiee)
-                        nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+                        nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
                 }
             }
 
             HashMap<String, Integer> result = new HashMap<String, Integer>();//Creating HashMap.
-            result.put("nbrUtilisateur", nbrUtilisateur); //Put elements in Map.
-            result.put("nbrSessionLibre", nbrSessionLibre);
-            result.put("nbrSessionPlanifiee", nbrSessionPlanifiee);
-            result.put("nbrTerrain", nbrTerrain);
-            result.put("nbrPlanification", nbrPlanification);
+            result.put("le nombre des users est : ", nbrUser); //Put elements in Map.
+            result.put("le nombre des séances libres est : ", nbrSeanceLibre);
+            result.put("le nombre des séances planifiées est : ", nbrSeancePlanifiee);
+            result.put("le nombre des terrains est : ", nbrTerrain);
+            //result.put("le nombre des séances libres est : ", nbrPlanification);
 
             return new ResponseEntity(result, HttpStatus.OK);
         }
