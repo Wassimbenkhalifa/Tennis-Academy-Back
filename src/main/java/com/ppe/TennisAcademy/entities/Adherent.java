@@ -6,6 +6,7 @@ import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.modelmapper.ModelMapper;
 
 @Entity
 @Data
@@ -25,5 +26,10 @@ public class Adherent extends User {
             inverseJoinColumns = @JoinColumn(name = "idUser"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Terrain> terrainsReserves;
+
+    public static Adherent mapToAdherent(User user) {
+        ModelMapper modelMapper = new ModelMapper();
+        return (modelMapper.map(user, Adherent.class));
+    }
 
 }
