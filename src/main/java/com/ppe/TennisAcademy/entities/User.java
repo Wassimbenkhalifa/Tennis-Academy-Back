@@ -14,7 +14,6 @@ import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Data
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "Role", discriminatorType = DiscriminatorType.STRING, length = 20)
 @Table(name = "users",
         uniqueConstraints = {
@@ -22,8 +21,6 @@ import org.hibernate.validator.constraints.Length;
                 @UniqueConstraint(columnNames = "email")
         })
 public class User {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -72,7 +69,7 @@ public class User {
    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Media photo;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

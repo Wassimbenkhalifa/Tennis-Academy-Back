@@ -1,20 +1,27 @@
 package com.ppe.TennisAcademy.services.impl;
 
+<<<<<<< HEAD
 import java.util.*;
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
-import com.ppe.TennisAcademy.entities.Adherent;
-import com.ppe.TennisAcademy.entities.Admin;
-import com.ppe.TennisAcademy.entities.Role;
-import com.ppe.TennisAcademy.entities.User;
-import com.ppe.TennisAcademy.entities.Coach;
-import com.ppe.TennisAcademy.entities.ERole;
+=======
+import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.RoleRepository;
 import com.ppe.TennisAcademy.repositories.UserRepository;
 import com.ppe.TennisAcademy.utils.exceptions.UserNotFoundException;
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.lang.Assert;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+>>>>>>> 798b84a4f774e2c80a2203403988b45067681c93
+import java.util.stream.Collectors;
+
+import static com.ppe.TennisAcademy.entities.Adherent.mapToAdherent;
+import static com.ppe.TennisAcademy.entities.Admin.mapToAdmin;
+import static com.ppe.TennisAcademy.entities.Coach.mapToCoach;
 
 @Service
 @Transactional
@@ -75,16 +82,13 @@ import io.jsonwebtoken.lang.Assert;
         List<Coach> listCoach=new ArrayList<>();
 
         for(User u:listUsers) {
-            if(u instanceof Coach) {
-                listCoach.add((Coach) u);
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_COACH") ) {
+                Coach ad = mapToCoach(u);
+                listCoach.add(ad);
             }
         }
-
-        if(listCoach!=null) {
-            return listCoach;
-        }
-        else return null;
-
+        return listCoach;
     }
 
     public List<Adherent> getAllAdherents(){
@@ -92,18 +96,16 @@ import io.jsonwebtoken.lang.Assert;
         List<Adherent> listAdherent=new ArrayList<>();
 
         for(User u:listUsers) {
-            if(u instanceof Adherent) {
-                listAdherent.add((Adherent) u);
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_ADHERENT") ) {
+                Adherent ad = mapToAdherent(u);
+                listAdherent.add(ad);
             }
         }
-
-        if(listAdherent!=null) {
-            return listAdherent;
-        }
-        else return null;
-
+        return listAdherent;
     }
 
+<<<<<<< HEAD
 
     public List<User> getAllAdmins(){
         List<User> listUsers=(List<User>) this.userRepository.findAll();
@@ -123,6 +125,20 @@ import io.jsonwebtoken.lang.Assert;
         }
         else return null;
 
+=======
+    public List<Admin> getAllAdmins(){
+        List<User> listUsers=(List<User>) this.userRepository.findAll();
+        List<Admin> listAdmin=new ArrayList<>();
+
+        for(User u:listUsers) {
+            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
+            if( roleName.equals("ROLE_ADMIN") ) {
+                Admin admin = mapToAdmin(u);
+                listAdmin.add(admin);
+            }
+        }
+        return listAdmin;
+>>>>>>> 798b84a4f774e2c80a2203403988b45067681c93
     }
 
 
