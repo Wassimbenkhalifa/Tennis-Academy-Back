@@ -77,16 +77,18 @@ public class UserDTO {
         return null;
     }
 
-    public static UserDTO mapUserToUserRole(User user){
-        if(user instanceof Admin){
+    public static UserDTO mapUserToUserRole(User user) {
+        if (user instanceof Admin) {
             return AdminDTO.mapToAdminDTO((Admin) user);
-        } else if(user instanceof Adherent){
+        } else if (user instanceof Adherent) {
             return AdherentDTO.mapToAdherentDTO((Adherent) user);
-        }else if(user instanceof Coach){
+        } else if (user instanceof Coach) {
             return CoachDTO.mapToCoachDTO((Coach) user);
         }
-        return UserDTO.mapToUserDTO(user);
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(user, UserDTO.class);
     }
+
 
     public static UserDTO mapToUserDTO(User user){
         ModelMapper modelMapper = new ModelMapper();

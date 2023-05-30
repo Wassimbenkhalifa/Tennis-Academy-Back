@@ -111,7 +111,7 @@ public class UserRestController <T extends User> {
             switch (role) {
                 case "ROLE_ADMIN":
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role dmin is not found."));
+                            .orElseThrow(() -> new RuntimeException("Error: Role Admin is not found."));
                     roles.add(adminRole);
 
                     break;
@@ -245,7 +245,7 @@ public class UserRestController <T extends User> {
         if (users != null && !users.isEmpty()) {
             List<UserDTO> results = users.
                     stream()
-                    .map(u -> UserDTO.mapToUserDTO(u))
+                    .map(u -> UserDTO.mapUserToUserRole(u))
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }
@@ -280,11 +280,11 @@ public class UserRestController <T extends User> {
 
     @GetMapping("/admin")
     public ResponseEntity getAllAdmins() {
-        Collection<Admin> users = userService.getAllAdmins();
+        Collection<User> users = userService.getAllAdmins();
         if (users != null && !users.isEmpty()) {
-            List<AdminDTO> results = users.
+            List<UserDTO> results = users.
                     stream()
-                    .map(u -> AdminDTO.mapToAdminDTO(u))
+                    .map(u -> UserDTO.mapToUserDTO(u))
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }
@@ -295,7 +295,7 @@ public class UserRestController <T extends User> {
     public ResponseEntity getById(@PathVariable("id") Long id) {
         User users = userService.getByID(id);
         if (users != null) {
-            return new ResponseEntity(UserDTO.mapToUserDTO(users), HttpStatus.OK);
+            return new ResponseEntity(UserDTO.mapUserToUserRole(users), HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.OK);
     }
@@ -322,12 +322,12 @@ public class UserRestController <T extends User> {
 
         User user = userService.getByID(userDTO.getIdUser());
         Media oldPhoto = user.getPhoto();
-        if (photo.getFileName() != null && photo.getFileName() != "" && photo.getFile() != null) {
+        if (photo!=null&&photo.getFileName() != null && photo.getFileName() != "" && photo.getFile() != null) {
             photo.setFileName(mediaService.setFileName(photo.getFileName()));
             user.setPhoto(Media.mapToMedia(photo));
 
         } else {
-            user.setPhoto(Media.mapToMedia(null));
+            user.setPhoto(null);
         }
 
         Optional<Role> admin = roleRepository.findByName(ERole.ROLE_ADMIN);
@@ -346,7 +346,7 @@ public class UserRestController <T extends User> {
         user.setUsername(userDTO.getUsername());
 
         Set<Role> roles = userDTO.getRoles();
-        if (roles.contains(coach)) {
+        if (roles!=null&&roles.contains(coach)) {
             Coach result = (Coach) userService.save((T) user);
             result.setDateEngagement(userDTO.getDateEngagement());
             result = (Coach) userService.save((T) result);
@@ -383,7 +383,7 @@ public class UserRestController <T extends User> {
             return new ResponseEntity<>(null, HttpStatus.OK);
 
         } else {
-            Admin result = (Admin) userService.save((T) user);
+            User result = userService.save((T) user);
 
 
             if (result != null && userDTO.getPhoto() != null && userDTO.getPhoto().getMediaURL() != null && oldPhoto != null) {
@@ -391,12 +391,13 @@ public class UserRestController <T extends User> {
                 mediaService.upload(userDTO.getPhoto().getFile(), userDTO.getPhoto().getFileName(),
                         PATH_IMAGE_USER_PROFILE);
                 return new ResponseEntity<>(UserDTO.mapToUserDTO(result), HttpStatus.OK);
-            } else if (oldPhoto == null) {
+            } else if (oldPhoto == null&&userDTO.getPhoto()!=null) {
                 mediaService.upload(userDTO.getPhoto().getFile(), userDTO.getPhoto().getFileName(),
                         PATH_IMAGE_USER_PROFILE);
                 return new ResponseEntity<>(UserDTO.mapToUserDTO(result), HttpStatus.OK);
             }
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            else return new ResponseEntity<>(UserDTO.mapToUserDTO(result), HttpStatus.OK);
+            //return new ResponseEntity<>(null, HttpStatus.OK);
 
         }
 
@@ -418,7 +419,7 @@ public class UserRestController <T extends User> {
             Collection<UserDTO> responses =
                     results
                             .stream()
-                            .map(user -> UserDTO.mapUserToUserRole(user))
+                            .map(user -> UserDTO.mapToUserDTO(user))
                             .collect(Collectors.toCollection(ArrayList::new));
             return new ResponseEntity(responses, HttpStatus.OK);
         }

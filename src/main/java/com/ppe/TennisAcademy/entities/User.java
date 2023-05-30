@@ -69,7 +69,7 @@ public class User {
 
     private Boolean verified;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Media photo;
 
     @ManyToMany(fetch = FetchType.LAZY)

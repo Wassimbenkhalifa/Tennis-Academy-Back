@@ -1,9 +1,6 @@
 package com.ppe.TennisAcademy.services.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import com.ppe.TennisAcademy.entities.Adherent;
@@ -108,20 +105,21 @@ import io.jsonwebtoken.lang.Assert;
     }
 
 
-    public List<Admin> getAllAdmins(){
+    public List<User> getAllAdmins(){
         List<User> listUsers=(List<User>) this.userRepository.findAll();
-        List<Admin> listAdmin=new ArrayList<>();
-
-        for(User u:listUsers) {
-            if(u instanceof Admin) {
-                listAdmin.add((Admin) u);
-                System.out.println(u);
-                return listAdmin;
+        //List<User> listAdmin=new ArrayList<>();
+        Optional<Role> roleAdmin = this.roleRepository.findByName(ERole.ROLE_ADMIN);
+       /* for(User u:listUsers) {
+            if(u.getRoles().contains(roleAdmin.get())){
+                listAdmin.add(u);
             }
-        }
+        }*/
+        listUsers = listUsers.stream().filter(u -> u.getRoles().contains(roleAdmin.get())).collect(Collectors.toList());
 
-        if(listAdmin!=null) {
-            return listAdmin;
+
+
+        if(listUsers!=null) {
+            return listUsers;
         }
         else return null;
 
