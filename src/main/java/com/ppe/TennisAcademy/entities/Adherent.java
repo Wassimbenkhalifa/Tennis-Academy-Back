@@ -27,9 +27,9 @@ public class Adherent extends User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Terrain> terrainsReserves;
 
-    public static Adherent mapToAdherent(User user) {
+    /*public static Adherent mapToAdherent(User user) {
         ModelMapper modelMapper = new ModelMapper();
         return (modelMapper.map(user, Adherent.class));
-    }
+    }*/
 
 }

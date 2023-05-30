@@ -254,11 +254,11 @@ public class UserRestController <T extends User> {
 
     @GetMapping("/coach")
     public ResponseEntity getAllCoachs() {
-        Collection<Coach> users = userService.getAllCoachs();
+        Collection<User> users = userService.getAllCoachs();
         if (users != null && !users.isEmpty()) {
-            List<CoachDTO> results = users.
+            List<UserDTO> results = users.
                     stream()
-                    .map(u -> CoachDTO.mapToCoachDTO(u))
+                    .map(u -> CoachDTO.mapToUserDTO(u))
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }
@@ -267,11 +267,11 @@ public class UserRestController <T extends User> {
 
     @GetMapping("/adherent")
     public ResponseEntity getAllAdherents() {
-        Collection<Adherent> users = userService.getAllAdherents();
+        Collection<User> users = userService.getAllAdherents();
         if (users != null && !users.isEmpty()) {
-            List<AdherentDTO> results = users.
+            List<UserDTO> results = users.
                     stream()
-                    .map(u -> AdherentDTO.mapToAdherentDTO(u))
+                    .map(u -> AdherentDTO.mapToUserDTO( u))
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }
@@ -284,7 +284,7 @@ public class UserRestController <T extends User> {
         if (users != null && !users.isEmpty()) {
             List<UserDTO> results = users.
                     stream()
-                    .map(u -> UserDTO.mapToUserDTO(u))
+                    .map(u -> UserDTO.mapToUserDTO( u))
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }

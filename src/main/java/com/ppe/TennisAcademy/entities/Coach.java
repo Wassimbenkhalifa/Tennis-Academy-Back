@@ -19,8 +19,8 @@ public class Coach extends User{
 
     private float rate;
 
-    public static Coach mapToCoach(User user) {
+   /* public static Coach mapToCoach(User user) {
         ModelMapper modelMapper = new ModelMapper();
         return (modelMapper.map(user, Coach.class));
-    }
+    }*/
 }

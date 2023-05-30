@@ -1,8 +1,8 @@
 package com.ppe.TennisAcademy.services.impl;
 
-<<<<<<< HEAD
+
 import java.util.*;
-=======
+
 import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.RoleRepository;
 import com.ppe.TennisAcademy.repositories.UserRepository;
@@ -16,12 +16,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
->>>>>>> 798b84a4f774e2c80a2203403988b45067681c93
 import java.util.stream.Collectors;
 
-import static com.ppe.TennisAcademy.entities.Adherent.mapToAdherent;
-import static com.ppe.TennisAcademy.entities.Admin.mapToAdmin;
-import static com.ppe.TennisAcademy.entities.Coach.mapToCoach;
+import static com.ppe.TennisAcademy.entities.AdherentDTO.mapToAdherentDTO;
+import static com.ppe.TennisAcademy.entities.AdminDTO.mapToAdminDTO;
+import static com.ppe.TennisAcademy.entities.CoachDTO.mapToCoachDTO;
 
 @Service
 @Transactional
@@ -77,35 +76,33 @@ import static com.ppe.TennisAcademy.entities.Coach.mapToCoach;
         return this.userRepository.findAll();
     }
 
-    public List<Coach> getAllCoachs(){
-        List<User> listUsers=(List<User>) this.userRepository.findAll();
-        List<Coach> listCoach=new ArrayList<>();
+    public List<User> getAllCoachs(){
+        List<User> listUsers = (List<User>) this.userRepository.findAll();
+        Optional<Role> roleCoach = this.roleRepository.findByName(ERole.ROLE_COACH);
 
-        for(User u:listUsers) {
-            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
-            if( roleName.equals("ROLE_COACH") ) {
-                Coach ad = mapToCoach(u);
-                listCoach.add(ad);
-            }
-        }
-        return listCoach;
+        listUsers = listUsers.stream().filter(u -> u.getRoles().contains(roleCoach.get())).collect(Collectors.toList());
+
+
+        if (listUsers != null) {
+            return listUsers;
+        } else return null;
+
     }
 
-    public List<Adherent> getAllAdherents(){
-        List<User> listUsers=(List<User>) this.userRepository.findAll();
-        List<Adherent> listAdherent=new ArrayList<>();
+    public List<User> getAllAdherents() {
+        List<User> listUsers = (List<User>) this.userRepository.findAll();
+        //List<User> listAdmin=new ArrayList<>();
+        Optional<Role> roleAdherent = this.roleRepository.findByName(ERole.ROLE_ADHERENT);
 
-        for(User u:listUsers) {
-            String roleName = String.valueOf(u.getRoles().stream().findFirst().get().getName());
-            if( roleName.equals("ROLE_ADHERENT") ) {
-                Adherent ad = mapToAdherent(u);
-                listAdherent.add(ad);
-            }
-        }
-        return listAdherent;
+
+        listUsers = listUsers.stream().filter(u -> u.getRoles().contains(roleAdherent.get())).collect(Collectors.toList());
+
+
+        if (listUsers != null) {
+            return listUsers;
+        } else return null;
+
     }
-
-<<<<<<< HEAD
 
     public List<User> getAllAdmins(){
         List<User> listUsers=(List<User>) this.userRepository.findAll();
@@ -125,7 +122,7 @@ import static com.ppe.TennisAcademy.entities.Coach.mapToCoach;
         }
         else return null;
 
-=======
+/*
     public List<Admin> getAllAdmins(){
         List<User> listUsers=(List<User>) this.userRepository.findAll();
         List<Admin> listAdmin=new ArrayList<>();
@@ -136,9 +133,9 @@ import static com.ppe.TennisAcademy.entities.Coach.mapToCoach;
                 Admin admin = mapToAdmin(u);
                 listAdmin.add(admin);
             }
-        }
+
         return listAdmin;
->>>>>>> 798b84a4f774e2c80a2203403988b45067681c93
+*/
     }
 
 

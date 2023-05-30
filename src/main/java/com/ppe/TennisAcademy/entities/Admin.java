@@ -18,8 +18,8 @@ public class Admin extends User {
         super();
     }
 
-    public static Admin mapToAdmin(User user) {
+   /* public static Admin mapToAdmin(User user) {
         ModelMapper modelMapper = new ModelMapper();
         return (modelMapper.map(user, Admin.class));
-    }
+    }*/
 }
