@@ -28,7 +28,7 @@ public class UserDTO {
 
     private Boolean verified;
 
-    private String password;
+    //private String password;
 
     private String email;
 

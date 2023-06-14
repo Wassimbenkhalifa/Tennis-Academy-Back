@@ -1,7 +1,5 @@
 package com.ppe.TennisAcademy.controllers;
 
-
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,9 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
 import com.ppe.TennisAcademy.config.UserDetailsImpl;
 import com.ppe.TennisAcademy.config.VerificationTokenService;
 import com.ppe.TennisAcademy.config.request.LoginRequest;
@@ -29,9 +25,11 @@ import com.ppe.TennisAcademy.services.ISessionService;
 import com.ppe.TennisAcademy.services.ITerrainService;
 import com.ppe.TennisAcademy.services.IMediaService;
 import com.ppe.TennisAcademy.services.impl.UserService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -45,11 +43,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
-
 import io.jsonwebtoken.lang.Assert;
-
 import static com.ppe.TennisAcademy.config.Pathconst.PATH_IMAGE_USER_PROFILE;
-
 
 @RestController
 @RequestMapping("/api/auth")
@@ -59,7 +54,7 @@ public class UserRestController <T extends User> {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    protected UserService<T> userService;
+    UserService<T> userService;
 
 
     @Autowired
@@ -103,6 +98,7 @@ public class UserRestController <T extends User> {
     }
 
     @PostMapping("/save")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity save(@RequestBody User user) {
         List<String> strRoles = user.getRoles().stream().map((r) -> r.getName().toString()).collect(Collectors.toList());
         Set<Role> roles = new HashSet<>();
@@ -138,16 +134,18 @@ public class UserRestController <T extends User> {
         String token = "http://localhost:8082/api/auth/verifyverificationToken/" + user.getIdUser() + "/" + verificationTokenService.getverificationToken(user.getIdUser().toString());
         System.out.println(token);
         //  mailService.sendEmail(user.getEmail(),token);
-        return ResponseEntity.ok(new MessageResponse("User updated  successfully!"));
+        return ResponseEntity.ok(new MessageResponse("User added  successfully!"));
     }
 
 
     @GetMapping("/verifyusername/{username}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public Boolean existsByUsername(@PathVariable String username) {
         return this.userService.existsByUsername(username);
     }
 
     @GetMapping("/verifyemail/{email}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public Boolean existsByEmail(@PathVariable String email) {
         return this.userService.existsByEmail(email);
     }
@@ -230,7 +228,7 @@ public class UserRestController <T extends User> {
         }
 
         user.setRoles(roles);
-        user.setVerified(false);
+        user.setVerified(true);
         user.setPrenom(signUpRequest.getPrenom());
         user.setNom(signUpRequest.getNom());
         userService.save((T) user);
@@ -240,6 +238,7 @@ public class UserRestController <T extends User> {
 
 
     @GetMapping("")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity getAll() {
         Collection<T> users = userService.getAll();
         if (users != null && !users.isEmpty()) {
@@ -279,6 +278,7 @@ public class UserRestController <T extends User> {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity getAllAdmins() {
         Collection<User> users = userService.getAllAdmins();
         if (users != null && !users.isEmpty()) {
@@ -292,6 +292,7 @@ public class UserRestController <T extends User> {
     }
 
     @GetMapping("/{id}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity getById(@PathVariable("id") Long id) {
         User users = userService.getByID(id);
         if (users != null) {
@@ -301,6 +302,7 @@ public class UserRestController <T extends User> {
     }
 
     @GetMapping(value = "/currentuser")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseBody
     public Object currentUser() {
 
@@ -310,6 +312,7 @@ public class UserRestController <T extends User> {
     }
 
     @GetMapping(value = "/currentuser/{id}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
 
     public ResponseEntity currentUserbyid(@PathVariable("id") Long id) {
 
@@ -317,6 +320,7 @@ public class UserRestController <T extends User> {
     }
 
     @PutMapping(value = "/edit")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity updateCurrentUser(@RequestBody UserDTO userDTO) {
         MediaDTO photo = userDTO.getPhoto();
 
@@ -344,6 +348,7 @@ public class UserRestController <T extends User> {
         user.setVerified(userDTO.getVerified());
         user.setEmail(userDTO.getEmail());
         user.setUsername(userDTO.getUsername());
+       // user.setPassword(encoder.encode(userDTO.getPassword()));
 
         Set<Role> roles = userDTO.getRoles();
         if (roles!=null&&roles.contains(coach)) {
@@ -405,11 +410,13 @@ public class UserRestController <T extends User> {
 
 
     @DeleteMapping("/{id}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(@PathVariable("id") long id) {
         this.userService.deleteById(id);
     }
 
     @GetMapping("/search/{value}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity findByName(@RequestParam String value) {
 
         Collection<T> results =
@@ -490,49 +497,52 @@ public class UserRestController <T extends User> {
         }
     }
 
-    @GetMapping("/infoAdmin")
-    public ResponseEntity getInfoForAdmin() {
-        Collection<T> users = userService.getAll();
-        Collection<Session> sessions = sessionService.getAll();
-        Collection<Planification> planification = planificationService.getAll();
-        Collection<Terrain> terrain = terrainService.getAll();
+//    @GetMapping("/infoAdmin")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity getInfoForAdmin() {
+//        Collection<T> users = userService.getAll();
+//        Collection<Session> sessions = sessionService.getAll();
+//        Collection<Planification> planification = planificationService.getAll();
+//        Collection<Terrain> terrain = terrainService.getAll();
+//
+//        if (users != null && sessions != null && planification != null && terrain != null) {
+//            int nbrUser = 0;
+//            int nbrSeanceLibre = 0;
+//            int nbrSeancePlanifiee = 0;
+//            int nbrTerrain = 0;
+//            //int nbrPlanification = 0;
+//
+//            if (!users.isEmpty())
+//                nbrUser = users.size();
+//
+//            //if (!planification.isEmpty())
+//            //  nbrPlanification = planification.size();
+//
+//            if (!terrain.isEmpty())
+//                nbrTerrain = terrain.size();
+//
+//            if (!sessions.isEmpty()) {
+//                for (Session sess : sessions) {
+//                    if (sess instanceof SeancesLibre)
+//                        nbrSeanceLibre = nbrSeanceLibre + 1;
+//                    if (sess instanceof SeancePlanifiee)
+//                        nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
+//                }
+//            }
+//
+//            HashMap<String, Integer> result = new HashMap<String, Integer>();//Creating HashMap.
+//            result.put("le nombre des users est : ", nbrUser); //Put elements in Map.
+//            result.put("le nombre des séances libres est : ", nbrSeanceLibre);
+//            result.put("le nombre des séances planifiées est : ", nbrSeancePlanifiee);
+//            result.put("le nombre des terrains est : ", nbrTerrain);
+//            //result.put("le nombre des séances libres est : ", nbrPlanification);
+//
+//            return new ResponseEntity(result, HttpStatus.OK);
+//        }
+//        return new ResponseEntity(null, HttpStatus.OK);
+//
+//    }
 
-        if (users != null && sessions != null && planification != null && terrain != null) {
-            int nbrUser = 0;
-            int nbrSeanceLibre = 0;
-            int nbrSeancePlanifiee = 0;
-            int nbrTerrain = 0;
-            //int nbrPlanification = 0;
-
-            if (!users.isEmpty())
-                nbrUser = users.size();
-
-            //if (!planification.isEmpty())
-               // nbrPlanification = planification.size();
-
-            if (!terrain.isEmpty())
-                nbrTerrain = terrain.size();
-
-            if (!sessions.isEmpty()) {
-                for (Session sess : sessions) {
-                    if (sess instanceof SeancesLibre)
-                        nbrSeanceLibre = nbrSeanceLibre + 1;
-                    if (sess instanceof SeancePlanifiee)
-                        nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
-                }
-            }
-
-            HashMap<String, Integer> result = new HashMap<String, Integer>();//Creating HashMap.
-            result.put("le nombre des users est : ", nbrUser); //Put elements in Map.
-            result.put("le nombre des séances libres est : ", nbrSeanceLibre);
-            result.put("le nombre des séances planifiées est : ", nbrSeancePlanifiee);
-            result.put("le nombre des terrains est : ", nbrTerrain);
-            //result.put("le nombre des séances libres est : ", nbrPlanification);
-
-            return new ResponseEntity(result, HttpStatus.OK);
-        }
-        return new ResponseEntity(null, HttpStatus.OK);
-    }
 
 //    @GetMapping("/infoSessionAdmin")
 //    public ResponseEntity getSessionAdmin() {
@@ -965,4 +975,29 @@ public class UserRestController <T extends User> {
 //        }
 //        return new ResponseEntity(null, HttpStatus.OK);
 //    }
+
+
+    @PostMapping("/addRoleToUser/{userid}/{role}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity addRoleToUser(@PathVariable("userid") long userid , @PathVariable("role") String role) {
+        User user = userService.getByID(userid);
+        Set<Role> roles = user.getRoles();
+        switch (role) {
+            case "ROLE_ADMIN":
+                Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role admin is not found."));
+                roles.add(adminRole);
+
+                break;
+            case "ROLE_COACH":
+                Role coachRole = roleRepository.findByName(ERole.ROLE_COACH)
+                        .orElseThrow(() -> new RuntimeException("Error: Role coach is not found."));
+                roles.add(coachRole);
+
+                break;
+        }
+        user.setRoles(roles);
+        User result =userService.save((T) user);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }

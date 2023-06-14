@@ -9,6 +9,7 @@ import com.ppe.TennisAcademy.services.ICoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class CoursRestController {
 
 
     @PostMapping("")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CoursDTO> saveCours(@RequestBody CoursDTO coursDTO) {
 
         Cours request = Cours.mapToCours(coursDTO);
@@ -43,7 +44,7 @@ public class CoursRestController {
 
 
     @PutMapping("/edit")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CoursDTO> editCours(@RequestBody CoursDTO coursDTO) {
 
         Cours request = Cours.mapToCours(coursDTO);
@@ -58,7 +59,7 @@ public class CoursRestController {
 
 
     @DeleteMapping("/{id}")
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean deleteCours(@PathVariable Long id) {
         CoursDTO coursDTO = CoursDTO.mapToCoursDTO(this.coursService.getById(id));
         if (coursDTO != null) {
@@ -70,7 +71,6 @@ public class CoursRestController {
     }
 
     @GetMapping("/{id}")
-    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CoursDTO> getById(@PathVariable Long id) {
 
         if (id != null) {
@@ -83,7 +83,6 @@ public class CoursRestController {
     }
 
     @GetMapping("")
-    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<CoursDTO>> getAllCours() {
 
         List<Cours> coursList = this.coursService.getAll();

@@ -35,6 +35,7 @@ public class PublicationRestController {
 
         Publication request = Publication.mapToPublication(publicationDTO);
         Publication result = this.publicationService.save(request);
+       // System.out.println(result.getText());
         if (result != null) {
             return new ResponseEntity<>(PublicationDTO.mapToPublicationDTO(result), HttpStatus.OK);
         }
