@@ -25,8 +25,12 @@ public class Terrain {
 
     private Boolean enable;
 
-    @ManyToMany(mappedBy = "terrainsReserves")
-    private Set<Adherent> adherents;
+
+//    @ManyToMany(mappedBy = "terrainsReserves")
+//    private Set<Adherent> adherents;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Media photo;
 
     public static Terrain mapToTerrain(TerrainDTO terrainDTO) {
         ModelMapper modelMapper = new ModelMapper();

@@ -128,7 +128,7 @@ public class UserRestController <T extends User> {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setRoles(roles);
         userService.save((T) user);
-//last update made by wassim
+
         verificationTokenService.generateverificationToken(user.getIdUser().toString());
         //send email
         String token = "http://localhost:8082/api/auth/verifyverificationToken/" + user.getIdUser() + "/" + verificationTokenService.getverificationToken(user.getIdUser().toString());
