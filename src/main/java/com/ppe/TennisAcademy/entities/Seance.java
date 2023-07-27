@@ -18,12 +18,12 @@ import org.modelmapper.ModelMapper;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "typesession", discriminatorType = DiscriminatorType.STRING, length = 20)
-public class Session {
+@DiscriminatorColumn(name = "typeseance", discriminatorType = DiscriminatorType.STRING, length = 20)
+public class Seance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idSession;
+    private Long idSeance;
 
     private LocalDateTime dateHeureDebut;
 
@@ -33,8 +33,8 @@ public class Session {
     @JoinColumn(name = "idTerrain")
     private Terrain terrain;
 
-    public static Session mapToSession(SessionDTO sessionDTO) {
+    public static Seance mapToSeance(SeanceDTO seanceDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        return (modelMapper.map(sessionDTO, Session.class));
+        return (modelMapper.map(seanceDTO, Seance.class));
     }
 }

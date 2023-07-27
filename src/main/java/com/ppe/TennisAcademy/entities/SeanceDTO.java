@@ -8,9 +8,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SessionDTO {
+public class SeanceDTO {
 
-    private Long idSession;
+    private Long idSeance;
 
     private LocalDateTime dateHeureDebut;
 
@@ -24,8 +24,8 @@ public class SessionDTO {
     private AdherentDTO adherentDTO;
 
 
-    public static SessionDTO mapToSessionDTO(Session session) {
+    public static SeanceDTO mapToSeanceDTO(Seance seance) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(session, SessionDTO.class);
+        return modelMapper.map(seance, SeanceDTO.class);
     }
 }

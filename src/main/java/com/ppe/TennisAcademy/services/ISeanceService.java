@@ -2,7 +2,7 @@ package com.ppe.TennisAcademy.services;
 
 import com.ppe.TennisAcademy.entities.SeancesLibre;
 import com.ppe.TennisAcademy.entities.SeancePlanifiee;
-import com.ppe.TennisAcademy.entities.Session;
+import com.ppe.TennisAcademy.entities.Seance;
 import com.ppe.TennisAcademy.entities.Terrain;
 
 import java.util.Date;
@@ -10,21 +10,21 @@ import java.util.List;
 
 
 
-public interface ISessionService {
+public interface ISeanceService {
 
-    Session save(Session session);
+    Seance save(Seance seance);
 
-        Session edit(Session session);
+        Seance edit(Seance seance);
 
     void deleteById(Long id);
 
-    Session getById(Long id);
+    Seance getById(Long id);
 
-    List<Session> getAll();
+    List<Seance> getAll();
 
     List<SeancesLibre> getAllLibre();
 
     List<SeancePlanifiee> getAllPlanifiee();
 
-    List<Session> findByTerrainAndDateHeureDebut(Terrain terain, Date dateDebut);
+    List<Seance> findByTerrainAndDateHeureDebut(Terrain terain, Date dateDebut);
 }

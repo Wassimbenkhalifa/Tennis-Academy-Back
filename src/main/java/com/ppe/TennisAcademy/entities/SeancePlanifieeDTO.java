@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import lombok.Data;
 
 @Data
-public class SeancePlanifieeDTO extends SessionDTO{
+public class SeancePlanifieeDTO extends SeanceDTO{
 
     private PlanificationDTO planification;
 

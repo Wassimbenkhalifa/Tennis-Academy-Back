@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
 import com.ppe.TennisAcademy.repositories.SeancePlanifieeRepository;
-import com.ppe.TennisAcademy.repositories.SessionRepository;
+import com.ppe.TennisAcademy.repositories.SeanceRepository;
 import com.ppe.TennisAcademy.repositories.TerrainRepository;
-import com.ppe.TennisAcademy.services.impl.SessionService;
+import com.ppe.TennisAcademy.services.impl.SeanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/session")
+@RequestMapping("/api/seance")
 @CrossOrigin(origins = "*", maxAge = 3600)
-public class SessionRestController {
+public class SeanceRestController {
     @Autowired
-    private SessionService sessionService;
+    private SeanceService seanceService;
 
     @Autowired
-    private SessionRepository sessionRepository;
+    private SeanceRepository seanceRepository;
 
     @Autowired
     private SeanceLibreRepository seanceLibreRepository;
@@ -44,27 +44,27 @@ public class SessionRestController {
 
     @PostMapping("/addPlanifiee")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SessionDTO> saveSessionPlanifiee(@RequestBody SessionDTO sessionDTO) {
-        Session request = Session.mapToSession(sessionDTO);
-        Session result = this.sessionService.save(request);
+    public ResponseEntity<SeanceDTO> saveSeancePlanifiee(@RequestBody SeanceDTO seanceDTO) {
+        Seance request = Seance.mapToSeance(seanceDTO);
+        Seance result = this.seanceService.save(request);
         if (result != null) {
-            return new ResponseEntity<>(SessionDTO.mapToSessionDTO(result), HttpStatus.OK);
+            return new ResponseEntity<>(SeanceDTO.mapToSeanceDTO(result), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
 //    @GetMapping("/test/{sdt}/{edt}")
-//    public ResponseEntity<?> findSessionByPeriod(
+//    public ResponseEntity<?> findSeanceByPeriod(
 //            @PathVariable String sdt,
 //            @PathVariable String edt){
-////		List<Object> result = this.sessionRepository.findSessionByPeriod(sdt, edt);
+////		List<Object> result = this.seanceRepository.findSeanceByPeriod(sdt, edt);
 //
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 //        LocalDateTime dateTimeDebut = LocalDateTime.parse(sdt+" 00:00", formatter);
 //        LocalDateTime dateTimeFin = LocalDateTime.parse(edt+" 23:59", formatter);
 //
-//        List<Object> result = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//        List<Object> result = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
 //
 //        JSONArray parentJsonArray = new JSONArray();
@@ -74,12 +74,12 @@ public class SessionRestController {
 //            Object[] row = (Object[]) result.get(i);
 //            String s= String.valueOf(row[0]);
 //
-//            Long sessionId=Long.valueOf(s).longValue();
+//            Long seanceId=Long.valueOf(s).longValue();
 //
-//            childJsonArray.put("sessionId", sessionId);
+//            childJsonArray.put("seanceId", seanceId);
 //            childJsonArray.put("dateDebut", String.valueOf(row[1]));
 //            childJsonArray.put("dateFin", String.valueOf(row[2]));
-////	        childJsonArray.put("sessionType", String.valueOf(row[3]));
+////	        childJsonArray.put("seanceType", String.valueOf(row[3]));
 //            childJsonArray.put("terrain", String.valueOf(row[3]));
 //            childJsonArray.put("cours", String.valueOf(row[4]));
 //
@@ -97,35 +97,35 @@ public class SessionRestController {
 ////		LocalDateTime dateTimeDebut = LocalDateTime.parse(sdt+" 00:00", formatter);
 ////		LocalDateTime dateTimeFin = LocalDateTime.parse(edt+" 23:59", formatter);
 ////
-////		Object[] result = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+////		Object[] result = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 ////		if(result!=null) {
 ////			for(int i=0;i<result.length;i++) {
 ////				System.out.println(result);
 ////			}
 ////		}else System.out.println("no");
-////		return this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+////		return this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
 //    }
 
     @PutMapping("/edit")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SessionDTO> editSession(@RequestBody SessionDTO sessionDTO) {
+    public ResponseEntity<SeanceDTO> editSeance(@RequestBody SeanceDTO seanceDTO) {
 
-        Session request = Session.mapToSession(sessionDTO);
-        Session result = this.sessionService.edit(request);
+        Seance request = Seance.mapToSeance(seanceDTO);
+        Seance result = this.seanceService.edit(request);
         if (result != null) {
 
-            return new ResponseEntity<>(SessionDTO.mapToSessionDTO(result), HttpStatus.OK);
+            return new ResponseEntity<>(SeanceDTO.mapToSeanceDTO(result), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     // @PreAuthorize("hasRole('ADMIN')")
-    public boolean deleteSession(@PathVariable Long id) {
-        SessionDTO sessionDTO = SessionDTO.mapToSessionDTO(this.sessionService.getById(id));
-        if (sessionDTO != null) {
-            this.sessionService.deleteById(id);
+    public boolean deleteSeance(@PathVariable Long id) {
+        SeanceDTO seanceDTO = SeanceDTO.mapToSeanceDTO(this.seanceService.getById(id));
+        if (seanceDTO != null) {
+            this.seanceService.deleteById(id);
             return true;
         } else {
             return false;
@@ -134,12 +134,12 @@ public class SessionRestController {
 
     @GetMapping("/{id}")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SessionDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<SeanceDTO> getById(@PathVariable Long id) {
 
         if (id != null) {
-            Session session = this.sessionService.getById(id);
-            if (session != null) {
-                return new ResponseEntity<>(SessionDTO.mapToSessionDTO(session), HttpStatus.OK);
+            Seance seance = this.seanceService.getById(id);
+            if (seance != null) {
+                return new ResponseEntity<>(SeanceDTO.mapToSeanceDTO(seance), HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(null, HttpStatus.OK);
@@ -147,41 +147,41 @@ public class SessionRestController {
 
     @GetMapping("")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<SessionDTO>> getAllSessions() {
+    public ResponseEntity<List<SeanceDTO>> getAllSeances() {
 
-        List<Session> sessionsList = this.sessionService.getAll();
-        if (!sessionsList.isEmpty()) {
-            System.out.println(sessionsList.get(0));
-            List<SessionDTO> sessionsDTOList = sessionsList.stream().map(s -> SessionDTO.mapToSessionDTO(s))
+        List<Seance> seancesList = this.seanceService.getAll();
+        if (!seancesList.isEmpty()) {
+            System.out.println(seancesList.get(0));
+            List<SeanceDTO> seancesDTOList = seancesList.stream().map(s -> SeanceDTO.mapToSeanceDTO(s))
                     .collect(Collectors.toList());
-            System.out.println(sessionsDTOList.get(0));
-            return new ResponseEntity<>(sessionsDTOList, HttpStatus.OK);
+            System.out.println(seancesDTOList.get(0));
+            return new ResponseEntity<>(seancesDTOList, HttpStatus.OK);
         }
         return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
     }
 
     @GetMapping("/planifiee")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<SeancePlanifieeDTO>> getAllPlanifieSessions() {
+    public ResponseEntity<List<SeancePlanifieeDTO>> getAllPlanifieSeances() {
 
-        List<SeancePlanifiee> sessionsList = this.sessionService.getAllPlanifiee();
-        if (!sessionsList.isEmpty()) {
-            List<SeancePlanifieeDTO> sessionsDTOList = sessionsList.stream()
+        List<SeancePlanifiee> seancesList = this.seanceService.getAllPlanifiee();
+        if (!seancesList.isEmpty()) {
+            List<SeancePlanifieeDTO> seancesDTOList = seancesList.stream()
                     .map(s -> SeancePlanifieeDTO.mapToSeancePlanifieeDTO(s)).collect(Collectors.toList());
-            return new ResponseEntity<>(sessionsDTOList, HttpStatus.OK);
+            return new ResponseEntity<>(seancesDTOList, HttpStatus.OK);
         }
         return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
     }
 
     @GetMapping("/libre")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<SeanceLibreDTO>> getAllLibreSessions() {
+    public ResponseEntity<List<SeanceLibreDTO>> getAllLibreSeances() {
 
-        List<SeancesLibre> sessionsList = this.sessionService.getAllLibre();
-        if (!sessionsList.isEmpty()) {
-            List<SeanceLibreDTO> sessionsDTOList = sessionsList.stream()
-                    .map(s -> SeanceLibreDTO.mapToSessionLibreDTO(s)).collect(Collectors.toList());
-            return new ResponseEntity<>(sessionsDTOList, HttpStatus.OK);
+        List<SeancesLibre> seancesList = this.seanceService.getAllLibre();
+        if (!seancesList.isEmpty()) {
+            List<SeanceLibreDTO> seancesDTOList = seancesList.stream()
+                    .map(s -> SeanceLibreDTO.mapToSeanceLibreDTO(s)).collect(Collectors.toList());
+            return new ResponseEntity<>(seancesDTOList, HttpStatus.OK);
         }
         return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
     }

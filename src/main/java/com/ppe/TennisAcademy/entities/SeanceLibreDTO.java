@@ -6,12 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SeanceLibreDTO extends SessionDTO{
+public class SeanceLibreDTO extends SeanceDTO{
 
 
     private AdherentDTO adherentDTO;
 
-    public static SeanceLibreDTO mapToSessionLibreDTO(SeancesLibre seanceLibre) {
+    public static SeanceLibreDTO mapToSeanceLibreDTO(SeancesLibre seanceLibre) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(seanceLibre, SeanceLibreDTO.class);
     }

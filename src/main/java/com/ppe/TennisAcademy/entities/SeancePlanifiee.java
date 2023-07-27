@@ -15,7 +15,7 @@ import org.modelmapper.ModelMapper;
 @Entity
 @Data
 @DiscriminatorValue("planifiee")
-public class SeancePlanifiee extends Session {
+public class SeancePlanifiee extends Seance {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,9 +23,9 @@ public class SeancePlanifiee extends Session {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Planification planification;
 
-    public static SeancePlanifiee mapToSessionPlanifiee(SeancePlanifieeDTO sessionPlanifieeDTO) {
+    public static SeancePlanifiee mapToSeancePlanifiee(SeancePlanifieeDTO seancePlanifieeDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        return (modelMapper.map(sessionPlanifieeDTO, SeancePlanifiee.class));
+        return (modelMapper.map(seancePlanifieeDTO, SeancePlanifiee.class));
     }
 
 }

@@ -11,7 +11,7 @@ import org.modelmapper.ModelMapper;
 @Entity
 @Getter @Setter
 @DiscriminatorValue("seancelibre")
-public class SeancesLibre extends Session{
+public class SeancesLibre extends Seance{
 
     @ManyToOne
     @JoinColumn(name="idUser")
@@ -28,9 +28,9 @@ public class SeancesLibre extends Session{
         super();
     }
 
-    public static SeancesLibre mapToSessionLibre(SeanceLibreDTO sessionLibreDTO) {
+    public static SeancesLibre mapToSeanceLibre(SeanceLibreDTO seanceLibreDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        return (modelMapper.map(sessionLibreDTO, SeancesLibre.class));
+        return (modelMapper.map(seanceLibreDTO, SeancesLibre.class));
     }
 
 

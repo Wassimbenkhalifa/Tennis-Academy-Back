@@ -19,9 +19,9 @@ import com.ppe.TennisAcademy.config.security.JwtUtils;
 import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.RoleRepository;
 import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
-import com.ppe.TennisAcademy.repositories.SessionRepository;
+import com.ppe.TennisAcademy.repositories.SeanceRepository;
 import com.ppe.TennisAcademy.services.IPlanificationService;
-import com.ppe.TennisAcademy.services.ISessionService;
+import com.ppe.TennisAcademy.services.ISeanceService;
 import com.ppe.TennisAcademy.services.ITerrainService;
 import com.ppe.TennisAcademy.services.IMediaService;
 import com.ppe.TennisAcademy.services.impl.UserService;
@@ -61,10 +61,10 @@ public class UserRestController <T extends User> {
     RoleRepository roleRepository;
 
     @Autowired
-    private ISessionService sessionService;
+    private ISeanceService seanceService;
 
     @Autowired
-    private SessionRepository sessionRepository;
+    private SeanceRepository seanceRepository;
 
     @Autowired
     private SeanceLibreRepository seanceLibreRepository;
@@ -501,11 +501,11 @@ public class UserRestController <T extends User> {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    public ResponseEntity getInfoForAdmin() {
 //        Collection<T> users = userService.getAll();
-//        Collection<Session> sessions = sessionService.getAll();
+//        Collection<Seance> seances = seanceService.getAll();
 //        Collection<Planification> planification = planificationService.getAll();
 //        Collection<Terrain> terrain = terrainService.getAll();
 //
-//        if (users != null && sessions != null && planification != null && terrain != null) {
+//        if (users != null && seances != null && planification != null && terrain != null) {
 //            int nbrUser = 0;
 //            int nbrSeanceLibre = 0;
 //            int nbrSeancePlanifiee = 0;
@@ -521,8 +521,8 @@ public class UserRestController <T extends User> {
 //            if (!terrain.isEmpty())
 //                nbrTerrain = terrain.size();
 //
-//            if (!sessions.isEmpty()) {
-//                for (Session sess : sessions) {
+//            if (!seances.isEmpty()) {
+//                for (Seance sess : seances) {
 //                    if (sess instanceof SeancesLibre)
 //                        nbrSeanceLibre = nbrSeanceLibre + 1;
 //                    if (sess instanceof SeancePlanifiee)
@@ -544,19 +544,19 @@ public class UserRestController <T extends User> {
 //    }
 
 
-//    @GetMapping("/infoSessionAdmin")
-//    public ResponseEntity getSessionAdmin() {
-//        Collection<Session> sessions = sessionService.getAll();
+//    @GetMapping("/infoSeanceAdmin")
+//    public ResponseEntity getSeanceAdmin() {
+//        Collection<Seance> seances = seanceService.getAll();
 //        HashMap<String, Integer> result = new HashMap<String, Integer>();//Creating HashMap.
 //
-//        if (sessions != null) {
+//        if (seances != null) {
 //
 //
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 //            for (int i = 0; i < 12; i++) {
 //                LocalDateTime now = LocalDateTime.now().minusMonths(i);
-//                int nbrSessionLibre = 0;
-//                int nbrSessionPlanifiee = 0;
+//                int nbrSeanceLibre = 0;
+//                int nbrSeancePlanifiee = 0;
 //                switch (now.getMonthValue()) {
 //
 //                    case 1: {
@@ -566,9 +566,9 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                int nbrSeanceLibre=0;
 //                                if (sess instanceof SeancesLibre)
 //                                    nbrSeanceLibre = nbrSeanceLibre + 1;
@@ -582,13 +582,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -602,13 +602,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -616,13 +616,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    29 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -635,13 +635,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -649,13 +649,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -668,13 +668,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -682,13 +682,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    30 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -701,13 +701,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -715,13 +715,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -734,13 +734,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -748,13 +748,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    30 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -768,13 +768,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -782,13 +782,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -801,13 +801,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -815,13 +815,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -834,13 +834,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -848,13 +848,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    30 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -867,13 +867,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -881,13 +881,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -900,13 +900,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -914,13 +914,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    30 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -933,13 +933,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //                        } else {
 //
@@ -947,13 +947,13 @@ public class UserRestController <T extends User> {
 //                                    01 + " 00:00", formatter);
 //                            LocalDateTime dateTimeFin = LocalDateTime.parse(now.getYear() + "-0" + now.getMonthValue() + "-" +
 //                                    31 + " 23:59", formatter);
-//                            List<Object> resultSession = this.sessionRepository.findSessionByPeriod(dateTimeDebut, dateTimeFin);
+//                            List<Object> resultSeance = this.seanceRepository.findSeanceByPeriod(dateTimeDebut, dateTimeFin);
 //
-//                            for (Session sess : sessions) {
+//                            for (Seance sess : seances) {
 //                                if (sess instanceof SeancesLibre)
-//                                    nbrSessionLibre = nbrSessionLibre + 1;
+//                                    nbrSeanceLibre = nbrSeanceLibre + 1;
 //                                if (sess instanceof SeancePlanifiee)
-//                                    nbrSessionPlanifiee = nbrSessionPlanifiee + 1;
+//                                    nbrSeancePlanifiee = nbrSeancePlanifiee + 1;
 //                            }
 //
 //                        }
@@ -961,8 +961,8 @@ public class UserRestController <T extends User> {
 //                    break;
 //                }
 //
-//                result.put("SL MOIS" + now.getMonthValue() + now.getYear(), nbrSessionLibre);
-//                result.put("SP MOIS" + now.getMonthValue() + now.getYear(), nbrSessionPlanifiee);
+//                result.put("SL MOIS" + now.getMonthValue() + now.getYear(), nbrSeanceLibre);
+//                result.put("SP MOIS" + now.getMonthValue() + now.getYear(), nbrSeancePlanifiee);
 //
 //                System.out.println(result);
 //

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 public class SeancePlanifieeService {
 
     @Autowired
-    private SeancePlanifieeRepository sessionRepository;
+    private SeancePlanifieeRepository seanceRepository;
 
-    public SeancePlanifiee save(SeancePlanifiee sessionPlanifiee) {
-        SeancePlanifiee result=(SeancePlanifiee) sessionRepository.save(sessionPlanifiee);
+    public SeancePlanifiee save(SeancePlanifiee seancePlanifiee) {
+        SeancePlanifiee result=(SeancePlanifiee) seanceRepository.save(seancePlanifiee);
         System.out.println(result.toString());
 
         return result;
