@@ -42,7 +42,7 @@ public class SeanceRestController {
     @Autowired
     private TerrainRepository terrainRepository;
 
-    @PostMapping("/addPlanifiee")
+    @PostMapping("/add")
     // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SeanceDTO> saveSeancePlanifiee(@RequestBody SeanceDTO seanceDTO) {
         Seance request = Seance.mapToSeance(seanceDTO);

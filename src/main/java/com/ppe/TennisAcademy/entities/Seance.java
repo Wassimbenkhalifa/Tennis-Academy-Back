@@ -33,6 +33,16 @@ public class Seance {
     @JoinColumn(name = "idTerrain")
     private Terrain terrain;
 
+    @ManyToOne
+    @JoinColumn(name = "idPlanification")
+    private Planification planification;
+
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    private User user;
+
+
+
     public static Seance mapToSeance(SeanceDTO seanceDTO) {
         ModelMapper modelMapper = new ModelMapper();
         return (modelMapper.map(seanceDTO, Seance.class));

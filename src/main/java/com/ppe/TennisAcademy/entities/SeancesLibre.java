@@ -13,16 +13,10 @@ import org.modelmapper.ModelMapper;
 @DiscriminatorValue("seancelibre")
 public class SeancesLibre extends Seance{
 
-    @ManyToOne
-    @JoinColumn(name="idUser")
-    private Adherent adherent;
 
 
 
-    public SeancesLibre(Adherent adherent) {
-        super();
-        this.adherent = adherent;
-    }
+
 
     public SeancesLibre() {
         super();

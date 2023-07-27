@@ -18,10 +18,6 @@ import org.modelmapper.ModelMapper;
 public class SeancePlanifiee extends Seance {
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPlanification")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Planification planification;
 
     public static SeancePlanifiee mapToSeancePlanifiee(SeancePlanifieeDTO seancePlanifieeDTO) {
         ModelMapper modelMapper = new ModelMapper();
