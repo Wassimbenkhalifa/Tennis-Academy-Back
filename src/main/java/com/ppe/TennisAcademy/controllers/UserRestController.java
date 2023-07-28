@@ -265,12 +265,12 @@ public class UserRestController <T extends User> {
     }
 
     @GetMapping("/adherent")
-    public ResponseEntity getAllAdherents() {
+    public ResponseEntity<List<UserDTO>> getAllAdherents() {
         Collection<User> users = userService.getAllAdherents();
         if (users != null && !users.isEmpty()) {
             List<UserDTO> results = users.
                     stream()
-                    .map(u -> AdherentDTO.mapToUserDTO( u))
+                    .map(AdherentDTO::mapToUserDTO)
                     .collect(Collectors.toList());
             return new ResponseEntity(results, HttpStatus.OK);
         }

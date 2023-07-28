@@ -27,8 +27,10 @@ public class TerrainDTO {
     }
 
     public static TerrainDTO mapToTerrainDTOWithPhoto(TerrainDTO terrainDTO) {
-        terrainDTO.getPhoto()
-                .setMediaURL(Pathconst.PATH_IMAGE_TERRAIN + terrainDTO.getPhoto().getFileName());
+        if(terrainDTO.getPhoto() != null) {
+            terrainDTO.getPhoto()
+                    .setMediaURL(Pathconst.PATH_IMAGE_TERRAIN + terrainDTO.getPhoto().getFileName());
+        }
         return terrainDTO;
     }
 
