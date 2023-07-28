@@ -150,7 +150,13 @@ public class MediaService implements IMediaService {
             Path root = Paths.get(url.substring(0, url.lastIndexOf("/") + 1));
             Path file = root.resolve(url.substring(url.lastIndexOf("/") + 1, url.length()));
             try {
-                Files.delete(file);
+                if(Files.exists(file)){
+                    System.out.println("OLD FILE EXIST");
+                    Files.delete(file);
+                } else {
+                    System.out.println("OLD FILE NOT EXISTS");
+
+                }
                 res = true;
             } catch (IOException e) {
                 throw new RuntimeException("Could not delete the files!: " + e.getMessage());

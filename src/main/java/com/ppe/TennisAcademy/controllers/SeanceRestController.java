@@ -9,7 +9,10 @@ import com.ppe.TennisAcademy.repositories.SeanceLibreRepository;
 import com.ppe.TennisAcademy.repositories.SeancePlanifieeRepository;
 import com.ppe.TennisAcademy.repositories.SeanceRepository;
 import com.ppe.TennisAcademy.repositories.TerrainRepository;
+import com.ppe.TennisAcademy.services.impl.PlanificationService;
 import com.ppe.TennisAcademy.services.impl.SeanceService;
+import com.ppe.TennisAcademy.services.impl.TerrainService;
+import com.ppe.TennisAcademy.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class SeanceRestController {
     @Autowired
     private SeanceService seanceService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private TerrainService terrainService;
+
+    @Autowired
+    private PlanificationService planificationService;
 
     @Autowired
     private SeanceRepository seanceRepository;
@@ -109,9 +121,22 @@ public class SeanceRestController {
 
     @PutMapping("/edit")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SeanceDTO> editSeance(@RequestBody SeanceDTO seanceDTO) {
+    public ResponseEntity<SeanceDTO> editSeance(@RequestBody SeanceDTO2 seanceDTO) {
 
-        Seance request = Seance.mapToSeance(seanceDTO);
+        Seance request = new Seance();
+
+        request.setDateHeureDebut(seanceDTO.getDateHeureDebut());
+        request.setDateHeureFin(seanceDTO.getDateHeureFin());
+        request.setIdSeance(seanceDTO.getIdSeance());
+
+        Terrain terrain = this.terrainService.getById(seanceDTO.getTerrain());
+        Planification planification = this.planificationService.getById(seanceDTO.getPlanification());
+        User user = this.userService.getByID(seanceDTO.getUser());
+
+        request.setUser(user);
+        request.setPlanification(planification);
+        request.setTerrain(terrain);
+
         Seance result = this.seanceService.edit(request);
         if (result != null) {
 
