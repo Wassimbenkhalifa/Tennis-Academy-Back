@@ -20,7 +20,7 @@ public class SeanceDTO {
 
     private PlanificationDTO planification;
 
-    private AdherentDTO adherent;
+    private UserDTO user;
 
 
     public static SeanceDTO mapToSeanceDTO(Seance seance) {

@@ -16,11 +16,9 @@ public class PlanificationDTO {
 
     private LocalDate dateFin;
 
-    private String jourSemaine;
-
     private CoursDTO cours;
 
-    private Set<AdherentDTO> joueursInscrits;
+    //private Set<AdherentDTO> joueursInscrits;
 
     public static PlanificationDTO mapToPlanificationDTO(Planification planification) {
         ModelMapper modelMapper = new ModelMapper();

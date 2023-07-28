@@ -57,26 +57,15 @@ public class PlanificationService implements IPlanificationService {
         return null;
     }
 
-    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, String dow) {
+    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
         List<LocalDate> selectedDay = new ArrayList<>();
         long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
         numOfDaysBetween++;
         // System.out.println(numOfDaysBetween);
         List<LocalDate> days = IntStream.iterate(0, i -> i + 1).limit(numOfDaysBetween)
                 .mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
-        for (int i = 0; i < days.size(); i++) {
-            if (dow.isEmpty()) {
-                selectedDay.add(days.get(i));
-            } else {
-                String day = String.valueOf(DayOfWeek.from(days.get(i)).getValue());
-                // debug data
-                // System.out.println(dow +"-" +DayOfWeek.from(days.get(i)).getValue() + "-" +
-                // "\"" + dow.indexOf(day) + "\"");
-                if (dow.indexOf(day) > -1)
-                    selectedDay.add(days.get(i));
-            }
-        }
+
         return selectedDay;
     }
-
 }
+

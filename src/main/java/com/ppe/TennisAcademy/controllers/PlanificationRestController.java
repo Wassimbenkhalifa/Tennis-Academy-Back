@@ -46,7 +46,7 @@ public class PlanificationRestController {
 
         Planification request = Planification.mapToPlanification(planificationDTO);
         List<LocalDate> daysOfPlanification= PlanificationService.getDatesBetween(planificationDTO.getDateDebut(),
-                planificationDTO.getDateFin(), planificationDTO.getJourSemaine());
+                planificationDTO.getDateFin());
 
         Planification result = this.planificationService.save(request);
 
@@ -83,8 +83,6 @@ public class PlanificationRestController {
     // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Terrain>> test(@RequestBody PlanificationDTO planificationDTO) {
 
-        System.out.println(PlanificationService.getDatesBetween(planificationDTO.getDateDebut(),
-                planificationDTO.getDateFin(), planificationDTO.getJourSemaine()));
 
 
         String str = planificationDTO.getDateDebut()+" 10:00";
@@ -95,7 +93,7 @@ public class PlanificationRestController {
 
         System.out.println(freeTerrain.get(0));
         List<LocalDate> daysOfPlanification=PlanificationService.getDatesBetween(planificationDTO.getDateDebut(),
-                planificationDTO.getDateFin(), planificationDTO.getJourSemaine());
+                planificationDTO.getDateFin());
 
 
 

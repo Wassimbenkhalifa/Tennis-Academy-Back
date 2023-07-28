@@ -27,18 +27,17 @@ public class Planification {
 
     private LocalDate dateFin;
 
-    private String JourSemaine; // MON: 1, TUE: 2, WED: 3, THU: 4, FRI: 5, SAT: 6, SUN 7
 
     @ManyToOne
     @JoinColumn( name="idCours" )
     private Cours cours;
 
-    @ManyToMany
-    @JoinTable(
-            name = "inscription_adherent",
-            joinColumns = @JoinColumn(name = "adherent_id"),
-            inverseJoinColumns = @JoinColumn(name = "planification_id"))
-    Set<Adherent> adherentsInscrits;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "inscription_adherent",
+//            joinColumns = @JoinColumn(name = "adherent_id"),
+//            inverseJoinColumns = @JoinColumn(name = "planification_id"))
+//    Set<Adherent> adherentsInscrits;
     public static Planification mapToPlanification(PlanificationDTO planificationDTO) {
         ModelMapper modelMapper = new ModelMapper();
         return (modelMapper.map(planificationDTO, Planification.class));
