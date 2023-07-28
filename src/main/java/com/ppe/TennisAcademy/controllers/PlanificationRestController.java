@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ppe.TennisAcademy.entities.Planification;
-import com.ppe.TennisAcademy.entities.PlanificationDTO;
-import com.ppe.TennisAcademy.entities.SeancePlanifiee;
-import com.ppe.TennisAcademy.entities.Terrain;
+import com.ppe.TennisAcademy.entities.*;
 import com.ppe.TennisAcademy.repositories.TerrainRepository;
+import com.ppe.TennisAcademy.services.ICoursService;
 import com.ppe.TennisAcademy.services.IPlanificationService;
 import com.ppe.TennisAcademy.services.impl.PlanificationService;
 import com.ppe.TennisAcademy.services.impl.SeancePlanifieeService;
@@ -34,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlanificationRestController {
     @Autowired
     private IPlanificationService planificationService;
+    @Autowired
+    private ICoursService coursService;
     @Autowired
     private SeancePlanifieeService seancePlanifieeService;
 
@@ -103,9 +103,17 @@ public class PlanificationRestController {
 
     @PutMapping("/edit")
     // @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PlanificationDTO> editPlanification(@RequestBody PlanificationDTO planificationDTO) {
+    public ResponseEntity<PlanificationDTO> editPlanification(@RequestBody PlanificationDTO2 planificationDTO) {
 
-        Planification request = Planification.mapToPlanification(planificationDTO);
+        Planification request = new Planification();
+
+        request.setIdPlanification(planificationDTO.getIdPlanification());
+        request.setDateDebut(planificationDTO.getDateDebut());
+        request.setDateFin(planificationDTO.getDateFin());
+        Cours cours = coursService.getById(planificationDTO.getCours());
+
+        request.setCours(cours);
+
         Planification result = this.planificationService.edit(request);
         if (result != null) {
 
